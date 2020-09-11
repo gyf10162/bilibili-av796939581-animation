@@ -1,7 +1,7 @@
 % 生成界面，模拟游戏运行
 % Author GYF
 % bilibili @gyf10162
-function [] = test(Player, Steps, canSolve, videoObj, fps)
+function [] = show_animation(Player, Steps, canSolve, videoObj, fps)
     % 清除上次绘图
     persistent hDrawItems;
 

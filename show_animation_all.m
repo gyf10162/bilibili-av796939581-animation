@@ -11,8 +11,8 @@ filename = 'result.csv';
 % videoObj.FrameRate = fps;
 % videoObj.open();
 for i = 1:length(xs)
-    test([xs(i), ys(i)], Steps{i}, canSolve(i));
-    %     test([xs(i),ys(i)],Steps{i},canSolve(i)),videoObj,fps);
+    show_animation([xs(i), ys(i)], Steps{i}, canSolve(i));
+    %     show_animation([xs(i),ys(i)],Steps{i},canSolve(i)),videoObj,fps);
 end
 
 % videoObj.close();
