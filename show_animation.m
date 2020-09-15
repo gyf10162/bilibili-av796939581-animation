@@ -169,11 +169,6 @@ function [] = show_animation(Player, Steps, canSolve, videoObj, fps)
         hPlayer.XData = XPlayerFinal;
         hPlayer.YData = YPlayerFinal;
 
-        if all([XPlayerFinal, YPlayerFinal] == Exit)
-            % 到达终点，则不继续移动
-            break;
-        end
-
         % 移动Mummy和Scorpion
         XMummyStart = hMummy.XData(1);
         YMummyStart = hMummy.YData(1);
@@ -279,6 +274,11 @@ function [] = show_animation(Player, Steps, canSolve, videoObj, fps)
                 videoObj.writeVideo(f);
             end
 
+        end
+
+        if all([XPlayerFinal, YPlayerFinal] == Exit)
+            % 到达终点，则不继续移动
+            break;
         end
 
     end
