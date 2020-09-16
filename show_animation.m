@@ -12,8 +12,8 @@ function [] = show_animation(Player, Steps, canSolve, videoObj, fps)
     hDrawItems = [];
     % 判断参数
     if nargin == 0
-        Steps = 'DDDURURRRDRRDUURULLUUURRLLRLDLLLLDDDRRDDDDRD';
-        Player = [2,7];
+        Steps = 'DDDURURRRDRRDUURUULLUURRSLLDLLLLDDDRRDDDDRD';
+        Player = [2, 7];
         canSolve = true;
     end
 
@@ -120,16 +120,18 @@ function [] = show_animation(Player, Steps, canSolve, videoObj, fps)
     time = 0;
     moveTime = 0.2; %移动时间
     moveFrames = ceil(fps * moveTime); %移动所需帧数
+    hFig = gcf; % 获取当前窗口句柄
 
     for i = 1:moveFrames
         % 停顿
-        % pause(1/fps);
         % 在此保存帧
         drawnow;
 
         if video
-            f = getframe(gcf);
+            f = getframe(hFig);
             videoObj.writeVideo(f);
+        else
+            % pause(1/fps);
         end
 
     end
@@ -139,9 +141,9 @@ function [] = show_animation(Player, Steps, canSolve, videoObj, fps)
         hDrawItems = [hDrawItems, tmp];
     end
 
-    for i = 1:length(Steps)
-        step = Steps(i);
-        info2 = sprintf("步骤：%s{\\bf%s}%s", Steps(1:i - 1), Steps(i), Steps(i + 1:end));
+    for ind = 1:length(Steps)
+        step = Steps(ind);
+        info2 = sprintf("步骤：%s{\\bf%s}%s", Steps(1:ind - 1), Steps(ind), Steps(ind + 1:end));
         xlabel(info2, 'FontSize', NoteSize);
         XPlayerStart = hPlayer.XData(1);
         YPlayerStart = hPlayer.YData(1);
@@ -155,13 +157,14 @@ function [] = show_animation(Player, Steps, canSolve, videoObj, fps)
         for i = 1:moveFrames
             hPlayer.XData = XPlayerMiddle(i);
             hPlayer.YData = YPlayerMiddle(i);
-            % pause(1/fps);
             % 在此保存帧
             drawnow;
 
             if video
-                f = getframe(gcf);
+                f = getframe(hFig);
                 videoObj.writeVideo(f);
+            else
+                % pause(1 / fps);
             end
 
         end
@@ -193,13 +196,14 @@ function [] = show_animation(Player, Steps, canSolve, videoObj, fps)
                 hMummy.YData = YMummyMiddle(i);
                 hScorpion.XData = XScorpionMiddle(i);
                 hScorpion.YData = YScorpionMiddle(i);
-                % pause(1/fps);
                 % 在此保存帧
                 drawnow;
 
                 if video
-                    f = getframe(gcf);
+                    f = getframe(hFig);
                     videoObj.writeVideo(f);
+                else
+                    % pause(1 / fps);
                 end
 
             end
@@ -239,19 +243,26 @@ function [] = show_animation(Player, Steps, canSolve, videoObj, fps)
             for i = 1:moveFrames
                 hMummy.XData = XMummyMiddle(i);
                 hMummy.YData = YMummyMiddle(i);
-                % pause(1/fps);
                 % 在此保存帧
                 drawnow;
 
                 if video
-                    f = getframe(gcf);
+                    f = getframe(hFig);
                     videoObj.writeVideo(f);
+                else
+                    % pause(1 / fps);
                 end
+            end
 
+            if (XMummyFinal == XScorpionFinal && YMummyFinal == YScorpionFinal)
+                XScorpionFinal = 0;
+                YScorpionFinal = 0;
             end
 
             hMummy.XData = XMummyFinal;
             hMummy.YData = YMummyFinal;
+            hScorpion.XData = XScorpionFinal;
+            hScorpion.YData = YScorpionFinal;
         end
 
         if (all([XPlayerFinal, YPlayerFinal] == Key) || all([XMummyFinal, YMummyFinal] == Key) || all([XScorpionFinal, YScorpionFinal] == Key))
@@ -265,13 +276,14 @@ function [] = show_animation(Player, Steps, canSolve, videoObj, fps)
 
         for i = 1:moveFrames
             % 停顿
-            % pause(1/fps);
             % 在此保存帧
             drawnow;
 
             if video
-                f = getframe(gcf);
+                f = getframe(hFig);
                 videoObj.writeVideo(f);
+            else
+                % pause(1 / fps);
             end
 
         end
@@ -283,16 +295,16 @@ function [] = show_animation(Player, Steps, canSolve, videoObj, fps)
 
     end
 
+    %停顿
     for i = 1:fps * 1
-        drawnow;
-        % 停顿
-        % pause(1/fps);
         % 在此保存帧
         drawnow;
 
         if video
-            f = getframe(gcf);
+            f = getframe(hFig);
             videoObj.writeVideo(f);
+        else
+            % pause(1 / fps);
         end
 
     end
