@@ -20,11 +20,17 @@ function [] = show_animation(Player, Steps, canSolve, videoObj, fps)
     if nargin == 2
         canSolve = true;
     end
-
+    
+    gif = false;
+    video = false;
     if nargin == 5
         video = true;
+    elseif nargin == 4
+        gif = true;
+        fps = 10;
+        gif_im = [];
+        gif_delay = [];
     else
-        video = false;
         fps = 30;
     end
 
@@ -136,6 +142,13 @@ function [] = show_animation(Player, Steps, canSolve, videoObj, fps)
 
     end
 
+    if gif
+        % 生成gif
+        f = getframe(hFig);
+        gif_im{length(gif_im)+1} = frame2im(f);
+        gif_delay = [gif_delay, moveFrames / fps];
+    end
+
     if ~canSolve
         tmp = text(mapSizeX / 2 + 0.5, mapSizeY / 2 + 0.5, '无法通关！', 'HorizontalAlignment', 'center', 'color', 'r', 'FontSize', 40);
         hDrawItems = [hDrawItems, tmp];
@@ -165,6 +178,13 @@ function [] = show_animation(Player, Steps, canSolve, videoObj, fps)
                 videoObj.writeVideo(f);
             else
                 % pause(1 / fps);
+            end
+
+            if gif
+                % 生成gif
+                f = getframe(hFig);
+                gif_im{length(gif_im)+1} = frame2im(f);
+                gif_delay = [gif_delay, 1 / fps];
             end
 
         end
@@ -204,6 +224,13 @@ function [] = show_animation(Player, Steps, canSolve, videoObj, fps)
                     videoObj.writeVideo(f);
                 else
                     % pause(1 / fps);
+                end
+    
+                if gif
+                    % 生成gif
+                    f = getframe(hFig);
+                    gif_im{length(gif_im)+1} = frame2im(f);
+                    gif_delay = [gif_delay, 1 / fps];
                 end
 
             end
@@ -252,6 +279,14 @@ function [] = show_animation(Player, Steps, canSolve, videoObj, fps)
                 else
                     % pause(1 / fps);
                 end
+    
+                if gif
+                    % 生成gif
+                    f = getframe(hFig);
+                    gif_im{length(gif_im)+1} = frame2im(f);
+                    gif_delay = [gif_delay, 1 / fps];
+                end
+
             end
 
             if (XMummyFinal == XScorpionFinal && YMummyFinal == YScorpionFinal)
@@ -288,6 +323,13 @@ function [] = show_animation(Player, Steps, canSolve, videoObj, fps)
 
         end
 
+        if gif
+            % 生成gif
+            f = getframe(hFig);
+            gif_im{length(gif_im)+1} = frame2im(f);
+            gif_delay = [gif_delay, moveFrames / fps];
+        end
+
         if all([XPlayerFinal, YPlayerFinal] == Exit)
             % 到达终点，则不继续移动
             break;
@@ -307,6 +349,23 @@ function [] = show_animation(Player, Steps, canSolve, videoObj, fps)
             % pause(1 / fps);
         end
 
+    end
+
+    if gif
+        % 生成gif
+        f = getframe(hFig);
+        gif_im{length(gif_im)+1} = frame2im(f);
+        gif_delay = [gif_delay, 1];
+        
+        filename = 'testAnimated.gif'; % Specify the output file name
+        for idx = 1:length(gif_delay)
+            [A,map] = rgb2ind(gif_im{idx},256);
+            if idx == 1
+                imwrite(A,map,filename,'gif','LoopCount',Inf,'DelayTime',gif_delay(idx));
+            else
+                imwrite(A,map,filename,'gif','WriteMode','append','DelayTime',gif_delay(idx));
+            end
+        end
     end
 
 end
