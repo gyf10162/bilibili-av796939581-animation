@@ -12,7 +12,7 @@
 
 * `show_animation.m` 用于模拟游戏界面，如下图所示。该界面完全由代码生成，所以玩家等等都是用符号代替（~~因为本人懒得去画~~）。
 
-    ![界面][interface]
+    ![界面][interfaceAnimated]
 
     `show_animation` 函数接受五个参数 `Player, Steps, canSolve, videoObj, fps`：
     * 如果不提供参数，则函数使用默认起点和步骤进行演示。
@@ -30,3 +30,4 @@
 [av457006196]: https://www.bilibili.com/video/av457006196
 [legend]: https://github.com/gyf10162/bilibili-av796939581-animation/raw/master/fig/legend.png
 [interface]: https://github.com/gyf10162/bilibili-av796939581-animation/raw/master/fig/interface.jpg
+[interfaceAnimated]: https://github.com/gyf10162/bilibili-av796939581-animation/raw/master/fig/interfaceAnimated.gif
